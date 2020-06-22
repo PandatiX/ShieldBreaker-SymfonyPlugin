@@ -1,9 +1,9 @@
 package com.shieldbreaker.symfonyplugin;
 
-import com.shieldbreaker.bot.BotManager;
 import com.shieldbreaker.kernel.ShieldBreaker;
+import com.shieldbreaker.webbruteforcecore.WebBruteForceBotManager;
 
-public class SymfonyBotManager extends BotManager {
+public class SymfonyBotManager extends WebBruteForceBotManager {
     public SymfonyBotManager() {
         super();
     }

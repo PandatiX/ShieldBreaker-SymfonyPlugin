@@ -8,7 +8,7 @@ import com.shieldbreaker.kernel.BasePlugin;
 public class SymfonyPlugin implements BasePlugin {
     @Override
     public String getName() {
-        return "SymfonyPlugin V1.0 - by PandatiX";
+        return "SymfonyPlugin V1.1 - by PandatiX";
     }
 
     @Override
